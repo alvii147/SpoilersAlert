@@ -4,8 +4,8 @@ import numpy as np
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 
-train = 1
-test = 0
+train = 0
+test = 1
 
 spoiler_data = []
 with open("spoiler_data.txt", 'r') as datafile:
@@ -18,7 +18,10 @@ test_sentences = [
     "The Mountain is scary",
     "Cersei is arguably one of the most hated characters",
     "Jon kills Dany because he knows there's no other way",
-    "Today is a beautiful day"
+    "Today is a beautiful day",
+    "Who knew the next leader of Westeros would be Bran",
+    "Bran is the three eyed raven",
+    "I think Jaime is a better person in this season"
 ]
 
 if train == 1:
@@ -34,7 +37,7 @@ if train == 1:
         train_data.append(strdata.rstrip())
         train_labels.append(int(splitline[len(splitline) - 1]))
     
-    embed = hub.Module("https://tfhub.dev/google/universal-sentence-encoder/1")
+    embed = hub.Module("UniversalSentenceEncoder/")
     sentences = train_data + spoiler_data
     tf.logging.set_verbosity(tf.logging.ERROR)
     with tf.Session() as session:
@@ -75,7 +78,7 @@ if test == 1:
         a = float(lines[0].rstrip())
         b = float(lines[1].rstrip())
     
-    embed = hub.Module("https://tfhub.dev/google/universal-sentence-encoder/1")
+    embed = hub.Module("UniversalSentenceEncoder/")
     sentences = test_sentences + spoiler_data
     tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
     with tf.Session() as session:
